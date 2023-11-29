@@ -1,3 +1,12 @@
+<?php
+session_start();
+//codigo para verificar que no haya una sesion activa
+if (!empty($_SESSION['Cuenta_Activa'])){
+  //si la hay, se redirecciona al inicio
+  echo "<script>window.location.href = 'inicio.php';</script>";
+}
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -10,10 +19,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- JQuery Validate library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!--SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </head>
   <body class="bg-dark">
     <div class="d-flex align-items-center justify-content-center flex-column text-light atmosphere_font_primary" id="atmosphere_cont_presentacion">
-        <b class="atmosphere_text_size_subtitle">Welcome to</b>
+        <b class="atmosphere_text_size_subtitle">The Infinity Barrier</b>
         <h1><b class="atmosphere_text_color atmosphere_text_size_title">Atmosphere</b></h1>
         <div class="mt-4" id="atmosphere_cont_btn">
           <button class="atmosphere_btn_primary mb-2" onclick="openmodal('atmosphere_modal_login')"><b>Log In</b></button>
@@ -30,9 +43,9 @@
           </div>
           <div class="d-flex align-items-center justify-content-center flex-column text-light atmosphere_font_primary">
             <h1 class="mb-3"><b class="atmosphere_text_color">Iniciar Sesión</b></h1>
-            <input class="form-control mb-2" placeholder="Ingresa tu Correo">
-            <input class="form-control mb-3" placeholder="Ingresa tu Contraseña">
-            <button class="atmosphere_btn_primary" style="width: auto;">Ingresar</button>
+            <input type="email" class="form-control mb-2" id="form_login_correo" placeholder="Ingresa tu Correo">
+            <input type="password" class="form-control mb-3" id="form_login_password" placeholder="Ingresa tu Contraseña">
+            <button class="atmosphere_btn_primary" style="width: auto;" id="form_login_btn_ingresar">Ingresar</button>
           </div>
         </div>
         <div id="form_login_column2">
@@ -51,10 +64,10 @@
           </div>
           <div class="d-flex align-items-center justify-content-center flex-column text-light atmosphere_font_primary">
             <h1 class="mb-3"><b class="atmosphere_text_color">Crear Cuenta</b></h1>
-            <input class="form-control mb-2" placeholder="Ingresa tu Nombre">
-            <input class="form-control mb-2" placeholder="Ingresa tu Correo">
-            <input class="form-control mb-3" placeholder="Ingresa una Contraseña">
-            <button class="atmosphere_btn_primary" style="width: auto;">Registrar</button>
+            <input type="text" class="form-control mb-2" id="form_signup_nombre" placeholder="Ingresa tu Nombre">
+            <input type="email" class="form-control mb-2" id="form_signup_correo" placeholder="Ingresa tu Correo">
+            <input type="password" class="form-control mb-3" id="form_signup_password" placeholder="Ingresa una Contraseña">
+            <button class="atmosphere_btn_primary" style="width: auto;" id="form_signup_btn_registrar">Registrar</button>
           </div>
         </div>
         <div id="form_signup_column2">
@@ -75,6 +88,76 @@
 
         cont_modal.style.display= "none";
       }
+
+      $(document).ready(function() {
+        //Enviar los Datos Introducidos en el formulario de Login
+        $('#form_login_btn_ingresar').click(function() {
+          /*Credenciales de Acceso*/
+          var Correo = $('#form_login_correo').val();
+          var Password = $('#form_login_password').val();
+          // Realizar la petición AJAX
+          $.ajax({
+            type: 'POST',
+            url: 'backend/process_login_form.php', // Archivo PHP para procesar los datos en el servidor
+            data: { Correo: Correo, Password: Password }, // Se envian los datos
+            success: function(response) {
+              // Manejar la respuesta del servidor aquí
+              if (response == 2) {
+                Swal.fire("Llene todos los campos"); //alerta
+              } else if (response == 0) {
+                Swal.fire("Correo o Contraseña Incorrectos"); //alerta
+                //Se limpian los campos
+                $('#form_login_correo').val("");
+                $('#form_login_password').val("");
+              } else if (response == 1){
+                window.location.href = "inicio.php"; //alerta
+                //Se limpian los campos
+                $('#form_login_correo').val("");
+                $('#form_login_password').val("");
+              }
+            }
+          });
+        });
+
+        //Enviar los Datos Introducidos en el formulario de Registro
+        $('#form_signup_btn_registrar').click(function() {
+          //Datos del Formulario
+          var Nombre = $('#form_signup_nombre').val();
+          var Correo = $('#form_signup_correo').val();
+          var Password = $('#form_signup_password').val();
+
+          // Realizar la petición AJAX
+          $.ajax({
+            type: 'POST',
+            url: 'backend/process_signup_form.php', // Archivo PHP para procesar los datos en el servidor
+            data: { Nombre: Nombre, Correo: Correo, Password: Password }, // Se envia el datos
+            success: function(response) {
+              // Manejar la respuesta del servidor aquí
+              if (response == 2) {
+                Swal.fire("Llene todos los campos"); //alerta
+              } else if (response == 0) {
+                Swal.fire('El usuario ya esta registrado'); //alerta
+                //Se limpian los campos
+                $('#form_signup_nombre').val("");
+                $('#form_signup_correo').val("");
+                $('#form_signup_password').val("");
+              } else if (response == 1) {
+                window.location.href = 'inicio.php'; //alerta
+                //Se limpian los campos
+                $('#form_signup_nombre').val("");
+                $('#form_signup_correo').val("");
+                $('#form_signup_password').val("");
+              } else {
+                Swal.fire('Error, Intente Nuevamente'); //alerta
+                //Se limpian los campos
+                $('#form_signup_nombre').val("");
+                $('#form_signup_correo').val("");
+                $('#form_signup_password').val("");
+              }
+            }
+          });
+        });
+      });
     </script>
 
     <!--JS Boostrap-->
