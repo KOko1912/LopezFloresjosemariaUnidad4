@@ -43,8 +43,8 @@ if (!empty($_SESSION['Cuenta_Activa'])){
           </div>
           <div class="d-flex align-items-center justify-content-center flex-column text-light atmosphere_font_primary">
             <h1 class="mb-3"><b class="atmosphere_text_color">Iniciar Sesión</b></h1>
-            <input class="form-control mb-2" id="form_login_correo" placeholder="Ingresa tu Correo">
-            <input class="form-control mb-3" id="form_login_password" placeholder="Ingresa tu Contraseña">
+            <input type="email" class="form-control mb-2" id="form_login_correo" placeholder="Ingresa tu Correo">
+            <input type="password" class="form-control mb-3" id="form_login_password" placeholder="Ingresa tu Contraseña">
             <button class="atmosphere_btn_primary" style="width: auto;" id="form_login_btn_ingresar">Ingresar</button>
           </div>
         </div>
@@ -64,9 +64,9 @@ if (!empty($_SESSION['Cuenta_Activa'])){
           </div>
           <div class="d-flex align-items-center justify-content-center flex-column text-light atmosphere_font_primary">
             <h1 class="mb-3"><b class="atmosphere_text_color">Crear Cuenta</b></h1>
-            <input class="form-control mb-2" id="form_signup_nombre" placeholder="Ingresa tu Nombre">
-            <input class="form-control mb-2" id="form_signup_correo" placeholder="Ingresa tu Correo">
-            <input class="form-control mb-3" id="form_signup_password" placeholder="Ingresa una Contraseña">
+            <input type="text" class="form-control mb-2" id="form_signup_nombre" placeholder="Ingresa tu Nombre">
+            <input type="email" class="form-control mb-2" id="form_signup_correo" placeholder="Ingresa tu Correo">
+            <input type="password" class="form-control mb-3" id="form_signup_password" placeholder="Ingresa una Contraseña">
             <button class="atmosphere_btn_primary" style="width: auto;" id="form_signup_btn_registrar">Registrar</button>
           </div>
         </div>
