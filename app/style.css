@@ -107,3 +107,53 @@
     color: #000000;
     border: 2px solid #7b7b7b;
 }
+#atmosphere_modal_update{
+    display: none;
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+}#atmosphere_form_update{
+    
+    height: 100%;
+    width: 100%;
+    background: #000000;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}#form_update_column1{
+    
+    display: grid;
+    grid-template-rows: 3rem auto;
+}#form_update_column1 .form-control{
+    
+    width: 80%;
+}#form_update_column2{
+    
+    background: rgb(255, 255, 255) url(https://i.pinimg.com/564x/57/11/df/5711dfa42f97fa16d861acd6a96f2675.jpg) no-repeat center;
+    background-size: cover;
+    display: grid;
+    grid-template-rows: 10vh 90vh;
+}
+
+
+#atmosphere_modal_delete{
+    display: none;
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+}#atmosphere_form_delete{
+    
+    height: 100%;
+    width: 100%;
+    background: #000000;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}#form_delete_column1 .atmosphere_btn_primary{
+    
+    width: 60%;
+}#form_delete_column2{
+    
+    background: rgb(255, 255, 255) url(https://i.pinimg.com/564x/f6/b7/71/f6b771ba7a484fa7f5c8c9fc1292c12f.jpg) no-repeat center;
+    background-size: cover;
+    display: grid;
+    grid-template-rows: 10vh 90vh;
+}
